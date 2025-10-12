@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityPulse | Events</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+        }
+
+        .filter-bar {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .event-card {
+            transition: all 0.4s ease;
+            padding: 15px;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .fade-out {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .fade-in {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        /* ===== FLOATING ACTION BUTTONS ===== */
+        /* Fixed position floating buttons container */
+        .floating-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Base floating button styling */
+        .floating-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hover effects for floating buttons */
+        .floating-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Shimmer effect on hover */
+        .floating-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent);
+            transition: left 0.5s ease;
+        }
+
+        .floating-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Individual floating button color schemes */
+        .dark-mode-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .scroll-to-top {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            display: none;
+        }
+
+        .scroll-to-bottom {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            display: none;
+        }
+
+        /* ===== DARK MODE STYLES ===== */
+        /* Dark mode base styling */
+        body.dark-mode {
+            background: linear-gradient(180deg, #1a1a1a, #2d2d2d);
+            color: #e0e0e0;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Dark mode transitions for all child elements */
+        body.dark-mode * {
+            transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode .event-card,
+        body.dark-mode .filter-bar {
+            background: #1a1a1a;
+            color: e0e0e0;
+
+        }
+
+        body.dark-mode .filter-bar input::placeholder,
+        body.dark-mode .card-title {
+            color: white !important;
+            opacity: 0.8;
+        }
+
+        body.dark-mode .section-card {
+            background: #1a1a1a;
+        }
+
+        body.dark-mode .team-section {
+            background: #2d2d2d;
+        }
+
+        /* Card styling in dark mode */
+        .card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode .card {
+            background-color: #2d2d2d;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        /* Navbar dark mode styling */
+        .navbar {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode .navbar {
+            background-color: #2d2d2d !important;
+            border-bottom: 1px solid #444;
+        }
+
+        body.dark-mode .navbar-brand {
+            color: #0d6efd !important;
+        }
+
+        body.dark-mode .nav-link {
+            color: #e0e0e0 !important;
+        }
+
+        body.dark-mode .nav-link:hover,
+        body.dark-mode .nav-link:focus {
+            color: #0d6efd !important;
+        }
+
+        body.dark-mode .nav-link.active {
+            color: #0d6efd !important;
+            font-weight: 600;
+        }
+
+        body.dark-mode .navbar-toggler {
+            border-color: #555;
+        }
+
+        body.dark-mode .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        body.dark-mode .navbar-collapse {
+            background-color: #2d2d2d;
+        }
+
+        /* Form elements in dark mode */
+        body.dark-mode .form-control,
+        body.dark-mode .form-select {
+            background-color: #3d3d3d;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+
+        /* Button styling in dark mode */
+        body.dark-mode .btn-outline-primary {
+            border-color: #0d6efd;
+            color: #0d6efd;
+        }
+
+        body.dark-mode .btn-outline-primary:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        /* Text and content styling in dark mode */
+        .text-muted {
+            transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode .text-muted {
+            color: #aaa !important;
+        }
+
+        /* Footer dark mode styling */
+        footer {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode footer {
+            background-color: #1a1a1a !important;
+        }
+
+        /* Shadow adjustments for dark mode */
+        .shadow-sm {
+            transition: box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode .shadow-sm {
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.4) !important;
+        }
+
+        /* ===== ANIMATIONS & TRANSITIONS ===== */
+        /* Smooth scrolling behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Fade in animation for mode transitions */
+        @keyframes fadeIn {
+            from {
+                opacity: 0.9;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Pulse animation for interactive elements */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .dark-mode-toggle.dark-mode-active {
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        /* Smooth transitions for interactive elements */
+        .navbar-brand,
+        .nav-link,
+        .card-title,
+        .card-text {
+            transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Background gradient transition */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #f3f4f6, #eef1f6);
+            z-index: -1;
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode::before {
+            background: linear-gradient(180deg, #1a1a1a, #2d2d2d);
+        }
+
+        /* Transition state management */
+        body.mode-transitioning {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="./index.html">CityPulse</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="events.html">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ===== FLOATING ACTION BUTTONS ===== -->
+    <div class="floating-buttons">
+        <button class="floating-btn dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="floating-btn scroll-to-top" id="scrollToTop" title="Scroll to Top">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+        <button class="floating-btn scroll-to-bottom" id="scrollToBottom" title="Scroll to Bottom">
+            <i class="fas fa-chevron-down"></i>
+        </button>
+    </div>
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="container mt-5 pt-5">
+        <!-- Filter Bar -->
+        <div class="filter-bar mb-4">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-4">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search for events...">
+                </div>
+                <div class="col-md-3">
+                    <select id="categoryFilter" class="form-select">
+                        <option value="">All Categories</option>
+                        <option value="music">Music</option>
+                        <option value="art">Art</option>
+                        <option value="tech">Tech</option>
+                        <option value="sports">Sports</option>
+                        <option value="food">Food</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select id="locationFilter" class="form-select">
+                        <option value="">All Locations</option>
+                        <option value="aleppo">Aleppo</option>
+                        <option value="damascus">Damascus</option>
+                        <option value="hama">Hama</option>
+                        <option value="homs">Homs</option>
+                        <option value="latakia">Latakia</option>
+                        <option value="tartous">Tartous</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="date" id="dateFilter" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Grid -->
+        <div class="row g-4" id="eventsContainer">
+            <!-- Damascus Jazz Night -->
+            <div class="col-md-4 event-card" data-category="music" data-location="damascus" data-date="2025-10-12">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event1.jpg" class="card-img-top" alt="Damascus Jazz Night">
+                    <div class="card-body">
+                        <h5 class="card-title">Damascus Jazz Night</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Oct 12, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Damascus, Syria</p>
+                        <p class="small">An unforgettable night of smooth jazz performances from top Syrian musicians.
+                        </p>
+                        <a href="event.html?event=1" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hama Art & Culture Expo -->
+            <div class="col-md-4 event-card" data-category="art" data-location="hama" data-date="2025-10-15">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event2.jpg" class="card-img-top" alt="Hama Art & Culture Expo">
+                    <div class="card-body">
+                        <h5 class="card-title">Hama Art & Culture Expo</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Oct 15, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Hama, Syria</p>
+                        <p class="small">Discover creative artworks and cultural exhibitions by local Syrian artists.
+                        </p>
+                        <a href="event.html?event=2" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aleppo Tech Forum -->
+            <div class="col-md-4 event-card" data-category="tech" data-location="aleppo" data-date="2025-11-05">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event3.jpg" class="card-img-top" alt="Aleppo Tech Forum">
+                    <div class="card-body">
+                        <h5 class="card-title">Aleppo Tech Forum 2025</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Nov 5, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Aleppo, Syria</p>
+                        <p class="small">Join leading innovators and developers discussing the future of Syrian
+                            technology.</p>
+                        <a href="event.html?event=3" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hama Marathon -->
+            <div class="col-md-4 event-card" data-category="sports" data-location="hama" data-date="2025-10-20">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event4.jpg" class="card-img-top" alt="Hama Marathon">
+                    <div class="card-body">
+                        <h5 class="card-title">Hama City Marathon</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Oct 20, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Hama, Syria</p>
+                        <p class="small">Annual marathon event promoting fitness and community engagement.</p>
+                        <a href="event.html?event=4" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Damascus Food Festival -->
+            <div class="col-md-4 event-card" data-category="food" data-location="damascus" data-date="2025-12-01">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event5.jpg" class="card-img-top" alt="Damascus Food Festival">
+                    <div class="card-body">
+                        <h5 class="card-title">Damascus Food Festival</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Dec 1, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Damascus, Syria</p>
+                        <p class="small">Explore local dishes and culinary heritage in this delicious food event.</p>
+                        <a href="event.html?event=5" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Latakia Indie Rock Concert -->
+            <div class="col-md-4 event-card" data-category="music" data-location="latakia" data-date="2025-11-22">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event6.jpg" class="card-img-top" alt="Latakia Indie Rock Concert">
+                    <div class="card-body">
+                        <h5 class="card-title">Latakia Indie Rock Concert</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Nov 22, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Latakia, Syria</p>
+                        <p class="small">A seaside concert featuring top Syrian indie rock bands.</p>
+                        <a href="event.html?event=6" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Modern Sculpture Expo – Damascus -->
+            <div class="col-md-4 event-card" data-category="art" data-location="damascus" data-date="2025-08-25">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event7.jpg" class="card-img-top" alt="Modern Sculpture Expo – Damascus">
+                    <div class="card-body">
+                        <h5 class="card-title">Modern Sculpture Expo – Damascus</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Aug 25, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Damascus, Syria</p>
+                        <p class="small">Experience creative works by contemporary Syrian sculptors.</p>
+                        <a href="event.html?event=7" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hackathon Syria 2025 -->
+            <div class="col-md-4 event-card" data-category="tech" data-location="damascus" data-date="2025-09-10">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event8.jpg" class="card-img-top" alt="Hackathon Syria 2025">
+                    <div class="card-body">
+                        <h5 class="card-title">Hackathon Syria 2025</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Sep 10, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Damascus, Syria</p>
+                        <p class="small">Innovate and collaborate with the brightest young developers.</p>
+                        <a href="event.html?event=8" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tartous Beach Volleyball Cup -->
+            <div class="col-md-4 event-card" data-category="sports" data-location="tartous" data-date="2025-08-15">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event9.jpg" class="card-img-top" alt="Tartous Beach Volleyball Cup">
+                    <div class="card-body">
+                        <h5 class="card-title">Tartous Beach Volleyball Cup</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Aug 15, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Tartous, Syria</p>
+                        <p class="small">Join the competition or enjoy the summer vibes by the sea.</p>
+                        <a href="event.html?event=9" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vegan Street Market – Damascus -->
+            <div class="col-md-4 event-card" data-category="food" data-location="damascus" data-date="2025-10-10">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event10.jpg" class="card-img-top" alt="Vegan Street Market – Damascus">
+                    <div class="card-body">
+                        <h5 class="card-title">Vegan Street Market – Damascus</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Oct 10, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Damascus, Syria</p>
+                        <p class="small">Discover healthy and delicious vegan creations from local vendors.</p>
+                        <a href="event.html?event=10" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Open Air Cinema – Aleppo Citadel -->
+            <div class="col-md-4 event-card" data-category="art" data-location="aleppo" data-date="2025-09-18">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event11.jpg" class="card-img-top" alt="Open Air Cinema – Aleppo Citadel">
+                    <div class="card-body">
+                        <h5 class="card-title">Open Air Cinema – Aleppo Citadel</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Sep 18, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Aleppo, Syria</p>
+                        <p class="small">Watch classics under the stars near Syria’s historic landmark.</p>
+                        <a href="event.html?event=11" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Startup Meetup – Homs -->
+            <div class="col-md-4 event-card" data-category="tech" data-location="homs" data-date="2025-11-08">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event12.jpg" class="card-img-top" alt="Startup Meetup – Homs">
+                    <div class="card-body">
+                        <h5 class="card-title">Startup Meetup – Homs</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Nov 8, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Homs, Syria</p>
+                        <p class="small">Connect with Syrian entrepreneurs and investors for future ventures.</p>
+                        <a href="event.html?event=12" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Farmers Market – Hama -->
+            <div class="col-md-4 event-card" data-category="food" data-location="hama" data-date="2025-09-25">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event13.jpg" class="card-img-top" alt="Farmers Market – Hama">
+                    <div class="card-body">
+                        <h5 class="card-title">Farmers Market – Hama</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Sep 25, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Hama, Syria</p>
+                        <p class="small">Fresh local produce, crafts, and homemade delights.</p>
+                        <a href="event.html?event=13" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charity Run – Damascus -->
+            <div class="col-md-4 event-card" data-category="sports" data-location="damascus" data-date="2025-10-05">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event14.jpg" class="card-img-top" alt="Charity Run – Damascus">
+                    <div class="card-body">
+                        <h5 class="card-title">Charity Run – Damascus</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Oct 5, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Damascus, Syria</p>
+                        <p class="small">Support local causes while staying active with your community.</p>
+                        <a href="event.html?event=14" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Photography Workshop – Aleppo -->
+            <div class="col-md-4 event-card" data-category="art" data-location="aleppo" data-date="2025-11-02">
+                <div class="card h-100 shadow-sm">
+                    <img src="assets/img/event15.jpg" class="card-img-top" alt="Photography Workshop – Aleppo">
+                    <div class="card-body">
+                        <h5 class="card-title">Photography Workshop – Aleppo</h5>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-calendar-days me-1"></i> Nov 2, 2025</p>
+                        <p class="text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i> Aleppo, Syria</p>
+                        <p class="small">Master photography techniques with professional Syrian artists.</p>
+                        <a href="event.html?event=15" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="text-center text-white py-5 mt-5">
+        <div class="container">
+            <h5 class="fw-bold mb-3">CityPulse – Discover What's Happening Around You</h5>
+
+            <p class="mb-1">
+                <i class="fa-solid fa-location-dot me-2"></i>
+                Hama, Syria – Al-Jaish Street, Near Cultural Center
+            </p>
+            <p class="mb-1">
+                <i class="fa-solid fa-envelope me-2"></i>
+                info@citypulse.com
+            </p>
+            <p class="mb-3">
+                <i class="fa-solid fa-phone me-2"></i>
+                +963 980 444 222
+            </p>
+
+            <div class="social-links mb-3">
+                <a href="#" class="mx-2 text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
+                <a href="#" class="mx-2 text-white"><i class="fab fa-instagram fa-lg"></i></a>
+                <a href="#" class="mx-2 text-white"><i class="fab fa-x-twitter fa-lg"></i></a>
+                <a href="#" class="mx-2 text-white"><i class="fab fa-youtube fa-lg"></i></a>
+            </div>
+
+            <p class="small-credits mb-0">
+                © 2025 <span class="fw-semibold">CityPulse</span>. All Rights Reserved.
+                | Designed with ❤️ in Syria.
+            </p>
+        </div>
+    </footer>
+
+    <!-- ===== JS ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // === Event Filtering Logic ===
+        const searchInput = document.getElementById("searchInput");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const locationFilter = document.getElementById("locationFilter");
+        const dateFilter = document.getElementById("dateFilter");
+        const events = document.querySelectorAll(".event-card");
+
+        function filterEvents() {
+            const searchText = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            const selectedLocation = locationFilter.value;
+            const selectedDate = dateFilter.value;
+
+            events.forEach(event => {
+                const title = event.querySelector(".card-title").textContent.toLowerCase();
+                const category = event.dataset.category;
+                const location = event.dataset.location;
+                const date = event.dataset.date;
+
+                const matchesSearch = title.includes(searchText);
+                const matchesCategory = !selectedCategory || category === selectedCategory;
+                const matchesLocation = !selectedLocation || location === selectedLocation;
+                const matchesDate = !selectedDate || date === selectedDate;
+
+                if (matchesSearch && matchesCategory && matchesLocation && matchesDate) {
+                    event.classList.remove("fade-out");
+                    event.classList.add("fade-in");
+                    event.style.display = "block";
+                } else {
+                    event.classList.remove("fade-in");
+                    event.classList.add("fade-out");
+                    setTimeout(() => event.style.display = "none", 400);
+                }
+            });
+        }
+
+        [searchInput, categoryFilter, locationFilter, dateFilter].forEach(input => {
+            input.addEventListener("input", filterEvents);
+        });
+
+
+        // ====== DARK MODE FUNCTIONALITY ======
+
+        let darkModeToggle = document.getElementById('darkModeToggle')
+        let body = document.body
+
+        /**
+         * Apply dark mode with smooth transition
+         * @param {boolean} isDark - Whether to apply dark mode
+         */
+        function applyDarkMode(isDark) {
+            // Add transition class for smooth animation
+            body.classList.add('mode-transitioning')
+
+            // Small delay to ensure CSS transition starts
+            setTimeout(() => {
+                if (isDark) {
+                    body.classList.add('dark-mode')
+                    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>'
+                    // Add animation class for the toggle button
+                    darkModeToggle.classList.add('dark-mode-active')
+                } else {
+                    body.classList.remove('dark-mode')
+                    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>'
+                    darkModeToggle.classList.remove('dark-mode-active')
+                }
+
+                // Remove transition class after animation completes
+                setTimeout(() => {
+                    body.classList.remove('mode-transitioning')
+                }, 500)
+            }, 10)
+        }
+
+        /**
+         * Enhanced toggle function with animation
+         */
+        function toggleDarkMode() {
+            const willBeDarkMode = !body.classList.contains('dark-mode')
+
+            // Add click animation to toggle button
+            darkModeToggle.style.transform = 'scale(0.9)'
+            setTimeout(() => {
+                darkModeToggle.style.transform = 'scale(1)'
+            }, 150)
+
+            applyDarkMode(willBeDarkMode)
+            localStorage.setItem('darkMode', willBeDarkMode.toString())
+        }
+
+        // Check for saved dark mode preference
+        let isDarkMode = localStorage.getItem('darkMode') === 'true'
+
+        // Apply dark mode if previously enabled
+        applyDarkMode(isDarkMode)
+
+        // Toggle dark mode with smooth transition
+        darkModeToggle.addEventListener('click', toggleDarkMode)
+
+        // Add keyboard shortcut for dark mode (Alt + D)
+        document.addEventListener('keydown', e => {
+            if (e.altKey && e.key === 'd') {
+                e.preventDefault()
+                toggleDarkMode()
+            }
+        })
+
+        // ====== SMOOTH SCROLL FUNCTIONALITY ======
+
+        const scrollToTopBtn = document.getElementById('scrollToTop')
+        const scrollToBottomBtn = document.getElementById('scrollToBottom')
+
+        // Show/hide scroll buttons based on scroll position
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY
+            const windowHeight = window.innerHeight
+            const documentHeight = document.documentElement.scrollHeight
+
+            // Show scroll to top button when scrolled down
+            if (scrollY > 300) {
+                scrollToTopBtn.style.display = 'flex'
+            } else {
+                scrollToTopBtn.style.display = 'none'
+            }
+
+            // Show scroll to bottom button when not at bottom
+            if (scrollY + windowHeight < documentHeight - 100) {
+                scrollToBottomBtn.style.display = 'flex'
+            } else {
+                scrollToBottomBtn.style.display = 'none'
+            }
+        })
+
+        // Scroll to top function
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
+        })
+
+        // Scroll to bottom function
+        scrollToBottomBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: 'smooth'
+            })
+        })
+    </script>
+</body>
+
+</html>
