@@ -96,8 +96,8 @@ const events = {
 
         تقدم الفعالية جلسات إرشادية، وفرص للتواصل، وجوائز لأفضل المشاريع. إنها مساحة نشطة حيث يلتقي الإبداع بالتكنولوجيا، مشجعة الشباب السوريين على تجاوز الحدود والابتكار من أجل مستقبل أفضل.`,
     images: [
-      'assets/img/8.1.jpg',
-      'assets/img/8.2.jpg',
+      'assets/img/8.1.jpeg',
+      'assets/img/8.2.jpeg',
       'assets/img/8.3.avif',
       'assets/img/8.4.avif'
     ],
@@ -123,10 +123,10 @@ const events = {
 
         يمكن للزوار حضور محاضرات عن التغذية، وعروض طهي، وورش عمل حول عدم إهدار الموارد - كل ذلك أثناء الاستمتاع بموسيقى حية في أجواء خضراء مسترخية.`,
     images: [
-      'assets/img/10.1.jpg',
-      'assets/img/10.2.webp',
-      'assets/img/10.3.jpg',
-      'assets/img/10.4.webp'
+      'assets/img/10.1.webp',
+      'assets/img/10.2.jpg',
+      'assets/img/10.3.webp',
+      'assets/img/10.4.jpg'
     ],
     map: { lat: 33.5192, lng: 36.2913 },
     category: 'food'
