@@ -8,11 +8,7 @@ const events = {
     description: `Damascus Jazz Night returns for its 5th annual edition, transforming the historic Al-Kabbani Theater into a sanctuary of rhythm and melody. The evening will feature performances from Syria's most talented jazz musicians, blending classic and modern sounds in an intimate setting.
 
         Guests can enjoy soulful saxophone solos, piano improvisations, and a cozy atmosphere enhanced by soft lighting and gourmet food stalls in the outdoor lounge. Whether you're a devoted jazz lover or new to the genre, this event promises a night of elegance, creativity, and pure musical joy.`,
-    images: [
-      'assets/img/event1.jpg',
-      'assets/img/event1_2.jpg',
-      'assets/img/event1_3.jpg'
-    ],
+    images: ['assets/img/1.1.jpg', 'assets/img/1.2.jpeg', 'assets/img/1.3.png'],
     map: { lat: 33.5138, lng: 36.2765 },
     category: 'music'
   },
@@ -23,7 +19,11 @@ const events = {
     description: `The Hama Art & Culture Expo showcases the incredible diversity of Syrian creativity — from traditional calligraphy to avant-garde installations. This year's theme, "Rebirth Through Art," invites more than 60 artists from across the country to exhibit paintings, sculptures, and multimedia works.
 
         Visitors will also have the opportunity to attend live painting sessions, children's creative workshops, and cultural performances celebrating Syrian folklore. The expo runs for five days, turning the Cultural Center into a vibrant meeting place for artists, students, and enthusiasts.`,
-    images: ['assets/img/event2.jpg', 'assets/img/event2_2.jpg'],
+    images: [
+      'assets/img/2.1.jpeg',
+      'assets/img/2.2.webp',
+      'assets/img/2.3.webp'
+    ],
     map: { lat: 35.1318, lng: 36.7578 },
     category: 'art'
   },
@@ -34,7 +34,12 @@ const events = {
     description: `The Aleppo Tech Forum 2025 brings together innovators, engineers, and entrepreneurs to discuss the future of technology in Syria. Over three days, participants will engage in keynote speeches, startup pitches, and interactive sessions focusing on artificial intelligence, fintech, and renewable energy.
 
         This year's edition emphasizes "Building Sustainable Digital Futures," encouraging collaboration between young developers and established industry leaders. Attendees will enjoy networking spaces, demo booths, and mentoring opportunities with local and international experts.`,
-    images: ['assets/img/event3.jpg', 'assets/img/event3_2.jpg'],
+    images: [
+      'assets/img/3.1.jpeg',
+      'assets/img/3.2.jpeg',
+      'assets/img/3.3.webp',
+      'assets/img/3.4.webp'
+    ],
     map: { lat: 36.2021, lng: 37.1343 },
     category: 'tech'
   },
@@ -45,7 +50,7 @@ const events = {
     description: `Run for health, unity, and fun at the annual Hama City Marathon! The event welcomes runners of all levels, offering 5K, 10K, and half-marathon routes along the scenic Orontes River. Volunteers and cheer squads will line the streets to encourage participants throughout the race.
 
         Beyond the competition, the marathon celebrates community spirit — with music stages, hydration zones, and post-run festivities including local food stalls and family activities. All proceeds support health initiatives for underprivileged children in Hama.`,
-    images: ['assets/img/event4.jpg', 'assets/img/event4_2.jpg'],
+    images: ['assets/img/4.1.webp', 'assets/img/4.2.jpg', 'assets/img/4.3.jpg'],
     map: { lat: 35.1318, lng: 36.7578 },
     category: 'sports'
   },
@@ -56,7 +61,7 @@ const events = {
     description: `The Damascus Food Festival is a culinary celebration of Syria's rich flavors and food heritage. From street-style shawarma to high-end Damascene sweets, this event gathers chefs, restaurants, and food lovers from all over the country.
 
         Visitors can enjoy live cooking demonstrations, tasting sessions, and workshops on traditional recipes. The festival's atmosphere is filled with the aroma of spices, laughter, and music — offering a true taste of Syrian culture in one unforgettable weekend.`,
-    images: ['assets/img/event5.jpg', 'assets/img/event5_2.jpg'],
+    images: ['assets/img/5.1.jpg', 'assets/img/5.2.jpg', 'assets/img/5.3.jpeg'],
     map: { lat: 33.5138, lng: 36.2765 },
     category: 'food'
   },
@@ -67,7 +72,7 @@ const events = {
     description: `Set against the backdrop of the Mediterranean sunset, the Latakia Indie Rock Concert is a must-attend event for music lovers. Featuring top Syrian indie bands, the night pulses with high-energy performances and coastal vibes.
 
         Food trucks, craft booths, and open-air seating areas make it perfect for groups of friends or families looking to relax and enjoy the rhythm of the waves. Bring your beach chair and dance the night away by the sea.`,
-    images: ['assets/img/event6.jpg', 'assets/img/event6_2.jpg'],
+    images: ['assets/img/6.1.jpeg', 'assets/img/6.2.jpeg'],
     map: { lat: 35.4974, lng: 35.7916 },
     category: 'music'
   },
@@ -78,7 +83,7 @@ const events = {
     description: `This exhibition highlights the evolution of Syrian sculpture through the works of emerging and established artists. From abstract marble pieces to metal installations, the Modern Sculpture Expo invites visitors to experience form, texture, and emotion like never before.
 
         The event also features guided tours, artist Q&A sessions, and interactive workshops for students interested in 3D art. The pavilion's courtyard will host nightly gatherings under the stars with live acoustic performances.`,
-    images: ['assets/img/event7.jpg', 'assets/img/event7_2.jpg'],
+    images: ['assets/img/7.1.jpg', 'assets/img/7.2.webp'],
     map: { lat: 33.5138, lng: 36.2765 },
     category: 'art'
   },
@@ -89,7 +94,12 @@ const events = {
     description: `Hackathon Syria 2025 is a 48-hour innovation marathon that challenges participants to create impactful tech solutions. Developers, designers, and entrepreneurs will collaborate to build prototypes addressing real-world problems.
 
         The event offers mentoring sessions, networking opportunities, and prizes for the best projects. It's an energetic space where creativity meets technology, encouraging young Syrians to push boundaries and innovate for a better future.`,
-    images: ['assets/img/event8.jpg', 'assets/img/event8_2.jpg'],
+    images: [
+      'assets/img/8.1.jpeg',
+      'assets/img/8.2.jpeg',
+      'assets/img/8.3.avif',
+      'assets/img/8.4.avif'
+    ],
     map: { lat: 33.5138, lng: 36.2765 },
     category: 'tech'
   },
@@ -100,7 +110,7 @@ const events = {
     description: `Summer meets sports in the Tartous Beach Volleyball Cup — an exciting two-day tournament featuring amateur and professional teams from across Syria. The event combines athletic competition with coastal leisure.
 
         Spectators can relax on the sand, enjoy live DJ music, and explore food stands serving refreshing drinks and snacks. Evening matches under floodlights create an unforgettable beachside experience.`,
-    images: ['assets/img/event9.jpg', 'assets/img/event9_2.jpg'],
+    images: ['assets/img/9.1.jpg', 'assets/img/9.2.jpg'],
     map: { lat: 34.8841, lng: 35.8869 },
     category: 'sports'
   },
@@ -111,7 +121,12 @@ const events = {
     description: `The Vegan Street Market celebrates healthy, sustainable living with an array of plant-based foods and eco-friendly products. Local vendors will showcase everything from vegan desserts to handmade soaps and natural cosmetics.
 
         Visitors can attend talks on nutrition, cooking demos, and zero-waste workshops — all while enjoying live acoustic music in a green, relaxed atmosphere.`,
-    images: ['assets/img/event10.jpg', 'assets/img/event10_2.jpg'],
+    images: [
+      'assets/img/10.1.webp',
+      'assets/img/10.2.jpg',
+      'assets/img/10.3.webp',
+      'assets/img/10.4.jpg'
+    ],
     map: { lat: 33.5192, lng: 36.2913 },
     category: 'food'
   },
@@ -122,7 +137,11 @@ const events = {
     description: `Under the majestic walls of the Aleppo Citadel, film enthusiasts can enjoy classic and contemporary movies projected on a giant outdoor screen. Bring your blanket and join hundreds of movie lovers for a cozy night under the stars.
 
         The event features Syrian short films, international classics, and a small food court offering popcorn and local snacks. Screenings begin at sunset each evening.`,
-    images: ['assets/img/event11.jpg', 'assets/img/event11_2.jpg'],
+    images: [
+      'assets/img/11.1.jpg',
+      'assets/img/11.2.jpg',
+      'assets/img/11.3.jpg'
+    ],
     map: { lat: 36.199, lng: 37.1591 },
     category: 'art'
   },
@@ -133,7 +152,7 @@ const events = {
     description: `The Homs Startup Meetup is where ideas meet opportunity. Entrepreneurs, investors, and tech enthusiasts gather to share experiences, pitch startups, and explore collaborations.
 
         The event features keynote sessions, startup showcases, and one-on-one mentorship hours with experts from various industries. It's the perfect space to grow your network and your vision.`,
-    images: ['assets/img/event12.jpg', 'assets/img/event12_2.jpg'],
+    images: ['assets/img/12.2.webp', 'assets/img/12.3.jpg'],
     map: { lat: 34.7308, lng: 36.7094 },
     category: 'tech'
   },
@@ -144,7 +163,12 @@ const events = {
     description: `The Hama Farmers Market celebrates local agriculture and craftsmanship. Dozens of stalls offer fresh fruits, vegetables, dairy, handmade crafts, and traditional sweets.
 
         Live folk music performances and children's play zones make it a family-friendly event. It's not just shopping — it's a joyful cultural experience that connects farmers directly with their community.`,
-    images: ['assets/img/event13.jpg', 'assets/img/event13_2.jpg'],
+    images: [
+      'assets/img/13.1.jpg',
+      'assets/img/13.2.jpeg',
+      'assets/img/13.3.jpg',
+      'assets/img/13.4.jpeg'
+    ],
     map: { lat: 35.1318, lng: 36.7578 },
     category: 'food'
   },
@@ -155,7 +179,12 @@ const events = {
     description: `The Damascus Charity Run encourages residents to stay active while supporting local social causes. All proceeds from registrations go to humanitarian organizations aiding families in need.
 
         Participants can choose between short and long-distance routes. After the race, everyone gathers in the park for live music, healthy snacks, and a celebration of community spirit.`,
-    images: ['assets/img/event14.jpg', 'assets/img/event14_2.jpg'],
+    images: [
+      'assets/img/14.1.jpeg',
+      'assets/img/14.2.jpg',
+      'assets/img/14.3.jpg',
+      'assets/img/14.44.jpg'
+    ],
     map: { lat: 33.5121, lng: 36.2755 },
     category: 'sports'
   },
@@ -166,7 +195,11 @@ const events = {
     description: `This immersive workshop takes photography enthusiasts on a creative journey through the narrow streets and ancient architecture of Aleppo's Old City. Guided by professional photographers, participants will learn composition, lighting, and storytelling through images.
 
         Sessions include outdoor practice, editing tutorials, and portfolio feedback. Perfect for beginners and experienced photographers alike.`,
-    images: ['assets/img/event15.jpg', 'assets/img/event15_2.jpg'],
+    images: [
+      'assets/img/15.1.webp',
+      'assets/img/15.2.jpg',
+      'assets/img/15.3.jpg'
+    ],
     map: { lat: 36.2021, lng: 37.1343 },
     category: 'art'
   }
