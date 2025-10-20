@@ -106,11 +106,12 @@ body {
 }
 
 .event-card img {
-  width: 100%;
+  width: 220px;
   height: 220px;
   object-fit: cover;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: block;
 }
 
 .event-card h5 {
